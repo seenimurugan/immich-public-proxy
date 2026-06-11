@@ -29,6 +29,13 @@ Public Internet
 └────────────────────────────────────────────────────────┘
 ```
 
+## Public vs private path
+
+On the **PUBLIC** Funnel hostname (`seeni-photos.stoat-perch.ts.net`) traffic passes through
+the `public-inject-proxy` nginx (for Umami analytics injection) before reaching this app.
+The **private tailnet** hostname (`immich.stoat-perch.ts.net`) goes straight to Immich with
+no nginx and no tracking.
+
 ## Why this keeps Immich private
 
 The main Immich `Service` (`immich-server:2283`) has **no** Tailscale Ingress and no Funnel annotation. It is only reachable from within the cluster network (ClusterIP) or from Tailnet devices that have direct pod/service access.
