@@ -1,6 +1,8 @@
-# Tailscale Funnel ingress for immich-public-proxy.
+# Tailscale Funnel ingress for seeni-photos (public gallery).
 # host: seeni-photos  → https://seeni-photos.stoat-perch.ts.net (Funnel = public)
+# Backend: public-inject-proxy (nginx that injects Umami tracking script).
 # The main Immich instance is NOT touched and remains tailnet-private.
+# The private 'immich' ingress (tailnet-only) is also NOT modified here.
 # NOTE: tailscale.com/funnel: "true" requires a nodeAttrs funnel grant
 # in the Tailscale admin console (manual step — outside this repo).
 ---
@@ -21,9 +23,9 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: immich-public-proxy
+                name: public-inject-proxy
                 port:
-                  number: 3000
+                  number: 80
   tls:
     - hosts:
         - seeni-photos
