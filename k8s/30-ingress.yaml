@@ -1,0 +1,29 @@
+# Tailscale Funnel ingress for immich-public-proxy.
+# host: seeni-photos  → https://seeni-photos.stoat-perch.ts.net (Funnel = public)
+# The main Immich instance is NOT touched and remains tailnet-private.
+# NOTE: tailscale.com/funnel: "true" requires a nodeAttrs funnel grant
+# in the Tailscale admin console (manual step — outside this repo).
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: immich-public-proxy
+  namespace: ${NAMESPACE}
+  annotations:
+    tailscale.com/funnel: "true"
+spec:
+  ingressClassName: tailscale
+  rules:
+    - host: seeni-photos
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: immich-public-proxy
+                port:
+                  number: 3000
+  tls:
+    - hosts:
+        - seeni-photos
